@@ -207,6 +207,16 @@ function toSentence(
   )
 }
 
+const evaluate = htmlElement => {
+  if (typeof htmlElement.evaluate === 'function') {
+    return htmlElement.evaluate.bind(htmlElement)
+  }
+
+  return (evaluateFn, ...args) => ({
+    then: callback => callback(evaluateFn(htmlElement, ...args)),
+  })
+}
+
 export {
   HtmlElementTypeError,
   checkHtmlElement,
@@ -219,4 +229,5 @@ export {
   getSingleElementValue,
   compareArraysAsSet,
   toSentence,
+  evaluate,
 }
